@@ -1,0 +1,124 @@
+.box {
+  width: 300px;
+  height: 300px;
+  background-color: #fff;
+  border: 2px dashed #f4511e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+  /* position: relative; */
+}
+.box-left {
+  background-color: #fff;
+  position: relative;
+}
+.box-right {
+  background-color: #fff;
+}
+.box-content {
+  text-align: center;
+  color: #ccc;
+}
+.box-content button {
+  background-color: #f4511e;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.box-content i {
+  background-color: #f4511e;
+  margin: 5px;
+}
+.box-content p {
+  font-size: 48px;
+}
+.background-box {
+  background-color: #fff3f0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.close-button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: #f4511e;
+  color: #fff;
+  border: black;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-inner {
+  position: relative;
+  width: 500px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column; /* จัดเรียงเนื้อหาในแนวตั้ง */
+  align-items: center; /* จัดตำแหน่งให้อยู่กึ่งกลางแนวนอน */
+  
+}
+
+.popup-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #f4511e;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.popup hr {
+  border: none;
+  border-top: 1px solid #ccc; /* เส้นสีเทา */
+  margin: 10px 0; /* ระยะห่างด้านบนและล่าง */
+  width: 100%; /* ความกว้างเต็ม */
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.popup input[type="text"] {
+  padding: 10px;
+  border-radius: 5px;
+  width: 95%;
+}
+
+.popup-add-button {
+  background-color: #f4511e;
+  color: white;
+  border: #f4511e;
+  border-radius: 5px;
+  padding: 10px;
+  width: 50px;
+  margin: auto;
+  text-align: center;
+}
+

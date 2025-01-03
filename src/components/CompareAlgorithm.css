@@ -1,0 +1,17 @@
+.center-content {
+    text-align: center;
+    color: #ccc;
+    margin: 10px;
+}
+.center-content button {
+    background-color: #fff;
+    color: #f4511e;
+    border: 2px solid #f4511e;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 8px;
+}
+.center-content i {
+    margin: 5px;
+}
