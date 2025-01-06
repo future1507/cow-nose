@@ -15,3 +15,6 @@
 .center-content i {
     margin: 5px;
 }
+.center-content input[type="checkbox"]:checked{
+    accent-color: #f4511e;
+}

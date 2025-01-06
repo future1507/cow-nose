@@ -5,9 +5,18 @@ const CompareAlgorithm = () => {
     <div>
       <div className="center-content">
         <p>เลือกวิธีเปรียบเทียบ</p>
-        <button>
-          <i className="fas fa-plus-circle"></i>เพิ่ม
-        </button>
+        <label>
+          <input type="checkbox" /> Algorithm 1
+          <br/>
+        </label>
+        <label>
+          <input type="checkbox" /> Algorithm 2
+          <br/>
+        </label>
+        <label>
+          <input type="checkbox" /> Algorithm 3
+          <br/>
+        </label>
       </div>
     </div>
   );
