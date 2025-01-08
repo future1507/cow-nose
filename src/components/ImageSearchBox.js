@@ -1,13 +1,15 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import "./ImageBox.css";
 import { DataContext } from "../data/DataContext";
 
 const ImageSearchBox = () => {
-  const { cow_img } = useContext(DataContext);
+  const { cow_img, valid } = useContext(DataContext);
   const [cowImage, setCowImage] = cow_img;
+  const [compareValid, setCompareValid] = valid;
 
   const handleClearImage = () => {
     setCowImage(null);
+    setCompareValid([compareValid[0], false]);
   };
 
   return (

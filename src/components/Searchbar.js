@@ -4,9 +4,10 @@ import { DataContext } from "../data/DataContext";
 
 const Searchbar = () => {
   const [searchText, setSearchText] = useState("");
-  const { id, cow_img } = useContext(DataContext);
+  const { id, cow_img, valid } = useContext(DataContext);
   const [, setZyan_id] = id;
   const [, setCowImage] = cow_img;
+  const [compareValid, setCompareValid] = valid;
 
   const inputSearchValue = (event) => {
     setSearchText(event.target.value);
@@ -15,7 +16,6 @@ const Searchbar = () => {
   const handleSearchValue = (event) => {
     event.preventDefault();
     setZyan_id(searchText);
-    console.log(searchText);
     fetchData();
   };
 
@@ -23,16 +23,24 @@ const Searchbar = () => {
     try {
       const response = await fetch("/api/nosetests/" + searchText);
       if (!response.ok) {
-        throw new Error("Could not fetch resource");
+        alert("Error " + response.status + " : ไม่พบข้อมูลไอดีที่ค้นหา");
       }
       const data = await response.json();
-      console.log(data);
-      setCowImage(data.img);
+      if (
+        data.img !== null &&
+        data.img !== undefined &&
+        data.img !== "" &&
+        data.img !== "null"
+      ) {
+        setCowImage(data.img);
+        setCompareValid([compareValid[0], true]);
+      } else {
+        alert("ไม่พบข้อมูลรูปภาพ");
+      }
     } catch (error) {
       console.log(error);
     }
   }
-
   return (
     <>
       <form onSubmit={handleSearchValue}>

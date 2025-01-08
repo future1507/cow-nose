@@ -3,16 +3,19 @@ import "./ImageBox.css";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 const ImageSelectBox = () => {
-  const { show_popup } = useContext(DataContext);
+  const { valid } = useContext(DataContext);
+  const [compareValid, setCompareValid] = valid;
+
   const [selectedImage, setSelectedImage] = useState(null);
-  const [showPopup, setShowPopup] = show_popup;
+  const [showPopup, setShowPopup] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [formValid, setFormValid] = useState(false);
+  const [, setIsImageValid] = useState(true);
 
-  const fileInputRef = useRef(null); // Reference for hidden input
+  const fileInputRef = useRef(null);
 
   const handleButtonClick = () => {
-    fileInputRef.current.click(); // Trigger input click
+    fileInputRef.current.click();
   };
 
   const handleImageChange = (event) => {
@@ -20,22 +23,36 @@ const ImageSelectBox = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setSelectedImage(reader.result); // Store image as base64
+        setSelectedImage(reader.result);
+        setCompareValid([true, compareValid[1]]);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  var handleLinkClick = () => {
+  const handleLinkClick = () => {
     setShowPopup(!showPopup);
-    if (formValid === true) {
-      setSelectedImage(imageUrl);
-      setImageUrl(""); // Clear input field
+    if (formValid) {
+      const img = new Image();
+      img.src = imageUrl;
+      img.onload = () => {
+        setSelectedImage(imageUrl);
+        setCompareValid([true, compareValid[1]]);
+        setShowPopup(false);
+        setImageUrl("");
+        setIsImageValid(true);
+      };
+      img.onerror = () => {
+        alert("ลิงก์รูปภาพไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่");
+        setIsImageValid(false);
+        setImageUrl("");
+      };
     }
   };
 
   const handleClearImage = () => {
-    setSelectedImage(null); // Reset the selected image
+    setSelectedImage(null);
+    setCompareValid([false, compareValid[1]]);
   };
 
   const inputUrl = (event) => {
@@ -43,9 +60,11 @@ const ImageSelectBox = () => {
   };
 
   useEffect(() => {
-    const checkData = imageUrl.trim().length > 0 && imageUrl !== 0;
-    setFormValid(checkData);
-  }, [imageUrl]);
+    const checkData = imageUrl.trim().length > 0;
+    if (formValid !== checkData) {
+      setFormValid(checkData); // อัปเดตเฉพาะเมื่อค่าต่างกัน
+    }
+  }, [imageUrl, formValid]);
 
   return (
     <>
@@ -95,7 +114,7 @@ const UploadButton = (props) => {
         type="file"
         accept="image/*"
         ref={props.fileInputRef}
-        style={{ display: "none" }} // Hide input
+        style={{ display: "none" }}
         onChange={props.handleImageChange}
       />
     </>
@@ -146,7 +165,7 @@ const ShowImage = (props) => {
     <>
       <img
         src={props.selectedImage}
-        alt="Selected preview"
+        alt="ลิงค์รูปภาพไม่ถูกต้อง"
         style={{
           width: "240px",
           height: "240px",
