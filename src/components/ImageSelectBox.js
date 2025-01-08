@@ -3,8 +3,9 @@ import "./ImageBox.css";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 const ImageSelectBox = () => {
-  const { valid } = useContext(DataContext);
+  const { img_src, valid } = useContext(DataContext);
   const [compareValid, setCompareValid] = valid;
+  const [, setImageSource] = img_src;
 
   const [selectedImage, setSelectedImage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
@@ -24,6 +25,7 @@ const ImageSelectBox = () => {
       const reader = new FileReader();
       reader.onload = () => {
         setSelectedImage(reader.result);
+        setImageSource(reader.result);
         setCompareValid([true, compareValid[1]]);
       };
       reader.readAsDataURL(file);
@@ -37,6 +39,7 @@ const ImageSelectBox = () => {
       img.src = imageUrl;
       img.onload = () => {
         setSelectedImage(imageUrl);
+        setImageSource(imageUrl);
         setCompareValid([true, compareValid[1]]);
         setShowPopup(false);
         setImageUrl("");
@@ -52,6 +55,7 @@ const ImageSelectBox = () => {
 
   const handleClearImage = () => {
     setSelectedImage(null);
+    setImageSource(null);
     setCompareValid([false, compareValid[1]]);
   };
 

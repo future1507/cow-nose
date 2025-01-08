@@ -3,12 +3,12 @@ import "./ImageBox.css";
 import { DataContext } from "../data/DataContext";
 
 const ImageSearchBox = () => {
-  const { cow_img, valid } = useContext(DataContext);
-  const [cowImage, setCowImage] = cow_img;
+  const { img_search, valid } = useContext(DataContext);
+  const [ImageSearch, setImageSearch] = img_search;
   const [compareValid, setCompareValid] = valid;
 
   const handleClearImage = () => {
-    setCowImage(null);
+    setImageSearch(null);
     setCompareValid([compareValid[0], false]);
   };
 
@@ -17,7 +17,7 @@ const ImageSearchBox = () => {
       <div className="background-box">
         <div className="box box-right">
           <div className="box-content">
-            {!cowImage ? (
+            {!ImageSearch ? (
               <>
                 <p>
                   รูปภาพ
@@ -28,7 +28,7 @@ const ImageSearchBox = () => {
             ) : (
               <>
                 <img
-                  src={cowImage}
+                  src={ImageSearch}
                   alt="Selected preview"
                   style={{
                     width: "240px",

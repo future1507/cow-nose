@@ -4,9 +4,9 @@ import { DataContext } from "../data/DataContext";
 
 const Searchbar = () => {
   const [searchText, setSearchText] = useState("");
-  const { id, cow_img, valid } = useContext(DataContext);
+  const { id, img_search, valid } = useContext(DataContext);
   const [, setZyan_id] = id;
-  const [, setCowImage] = cow_img;
+  const [, setImageSearch] = img_search;
   const [compareValid, setCompareValid] = valid;
 
   const inputSearchValue = (event) => {
@@ -21,7 +21,7 @@ const Searchbar = () => {
 
   async function fetchData() {
     try {
-      const response = await fetch("/api/nosetests/" + searchText);
+      const response = await fetch("/springboot/api/nosetests/" + searchText);
       if (!response.ok) {
         alert("Error " + response.status + " : ไม่พบข้อมูลไอดีที่ค้นหา");
       }
@@ -32,7 +32,7 @@ const Searchbar = () => {
         data.img !== "" &&
         data.img !== "null"
       ) {
-        setCowImage(data.img);
+        setImageSearch(data.img);
         setCompareValid([compareValid[0], true]);
       } else {
         alert("ไม่พบข้อมูลรูปภาพ");

@@ -3,13 +3,14 @@ import CompareAlgorithm from "./components/CompareAlgorithm";
 import ImageSearchBox from "./components/ImageSearchBox";
 import ImageSelectBox from "./components/ImageSelectBox";
 import Navbar from "./components/Navbar";
+import ProcessingResult from "./components/ProcessingResult";
 import Searchbar from "./components/Searchbar";
 import { DataProvider } from "./data/DataContext";
 
 function App() {
   return (
     <DataProvider>
-      <div>
+      <>
         <Navbar />
         <Searchbar />
         <div className="container">
@@ -17,7 +18,8 @@ function App() {
           <CompareAlgorithm />
           <ImageSearchBox />
         </div>
-      </div>
+        <ProcessingResult />
+      </>
     </DataProvider>
   );
 }
