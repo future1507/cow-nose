@@ -22,7 +22,7 @@ const CompareAlgorithm = () => {
   const [checkalgo1, setCheckalgo1] = useState(false);
   const [checkalgo2, setCheckalgo2] = useState(false);
   const [checkalgo3, setCheckalgo3] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // State สำหรับควบคุม spinner
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (compareValid[0] && compareValid[1]) {
@@ -44,14 +44,14 @@ const CompareAlgorithm = () => {
       img_main: ImageSearch,
       img_compare: CheckImageSourceType(ImageSource),
     };
-    console.log(testData);
+    // console.log(testData);
     setAlgorithm1([]);
     setAlgorithm2([]);
     setAlgorithm3([]);
     if (!checkalgo1 && !checkalgo2 && !checkalgo3) {
       alert("กรุณาเลือกวิธีเปรียบเทียบ");
     } else {
-      setIsLoading(true); // เริ่มแสดง spinner
+      setIsLoading(true);
       fetch("/flask/api/matching", {
         method: "POST",
         headers: {
@@ -68,7 +68,14 @@ const CompareAlgorithm = () => {
               if (checkalgo3) setAlgorithm3(data);
             });
           } else {
-            alert("Error " + response.status + " : ไม่สามารถเปรียบเทียบรูปภาพ");
+            response.json().then((data) => {
+              alert(
+                "Error " +
+                  response.status +
+                  " : ไม่สามารถเปรียบเทียบรูปภาพได้ เนื่องจาก" +
+                  data.message
+              );
+            });
           }
         })
         .catch((error) => {
@@ -76,7 +83,7 @@ const CompareAlgorithm = () => {
           alert("เกิดข้อผิดพลาดขณะเปรียบเทียบรูปภาพ");
         })
         .finally(() => {
-          setIsLoading(false); // ซ่อน spinner เมื่อ fetch เสร็จ
+          setIsLoading(false);
         });
     }
   }

@@ -5,9 +5,8 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 const ImageSelectBox = () => {
   const { img_src, valid } = useContext(DataContext);
   const [compareValid, setCompareValid] = valid;
-  const [, setImageSource] = img_src;
+  const [ImageSource, setImageSource] = img_src;
 
-  const [selectedImage, setSelectedImage] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [formValid, setFormValid] = useState(false);
@@ -24,7 +23,6 @@ const ImageSelectBox = () => {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setSelectedImage(reader.result);
         setImageSource(reader.result);
         setCompareValid([true, compareValid[1]]);
       };
@@ -38,12 +36,10 @@ const ImageSelectBox = () => {
       const img = new Image();
       img.src = imageUrl;
       img.onload = () => {
-        setSelectedImage(imageUrl);
         setImageSource(imageUrl);
         setCompareValid([true, compareValid[1]]);
-        setShowPopup(false);
-        setImageUrl("");
         setIsImageValid(true);
+        ClosePopup();
       };
       img.onerror = () => {
         alert("ลิงก์รูปภาพไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่");
@@ -53,8 +49,12 @@ const ImageSelectBox = () => {
     }
   };
 
+  const ClosePopup = () => {
+    setShowPopup(!showPopup);
+    setImageUrl("");
+  };
+
   const handleClearImage = () => {
-    setSelectedImage(null);
     setImageSource(null);
     setCompareValid([false, compareValid[1]]);
   };
@@ -75,7 +75,7 @@ const ImageSelectBox = () => {
       <div className="background-box">
         <div className="box box-left">
           <div className="box-content">
-            {!selectedImage ? (
+            {!ImageSource ? (
               <>
                 <p>เพิ่ม</p>
                 <UploadButton
@@ -89,7 +89,7 @@ const ImageSelectBox = () => {
             ) : (
               <>
                 <ShowImage
-                  selectedImage={selectedImage}
+                  ImageSource={ImageSource}
                   handleClearImage={handleClearImage}
                 />
               </>
@@ -102,6 +102,7 @@ const ImageSelectBox = () => {
           handleLinkClick={handleLinkClick}
           inputUrl={inputUrl}
           imageUrl={imageUrl}
+          ClosePopup={ClosePopup}
         />
       )}
     </>
@@ -140,10 +141,7 @@ export const Popup = (props) => {
     <>
       <div className="popup">
         <div className="popup-inner">
-          <button
-            className="popup-close-button"
-            onClick={props.handleLinkClick}
-          >
+          <button className="popup-close-button" onClick={props.ClosePopup}>
             <i className="fas fa-times"></i>
           </button>
           <h1>เพิ่มรูปภาพด้วย url</h1>
@@ -168,7 +166,7 @@ const ShowImage = (props) => {
   return (
     <>
       <img
-        src={props.selectedImage}
+        src={props.ImageSource}
         alt="ลิงค์รูปภาพไม่ถูกต้อง"
         style={{
           width: "240px",
