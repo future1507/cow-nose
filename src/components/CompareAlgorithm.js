@@ -43,6 +43,9 @@ const CompareAlgorithm = () => {
     const testData = {
       img_main: ImageSearch,
       img_compare: CheckImageSourceType(ImageSource),
+      akaze: checkalgo1,
+      orb: checkalgo2,
+      sift: checkalgo3,
     };
     // console.log(testData);
     setAlgorithm1([]);
@@ -63,9 +66,9 @@ const CompareAlgorithm = () => {
           if (response.ok) {
             response.json().then((data) => {
               console.log(data);
-              if (checkalgo1) setAlgorithm1(data);
-              if (checkalgo2) setAlgorithm2(data);
-              if (checkalgo3) setAlgorithm3(data);
+              if (checkalgo1) setAlgorithm1(data.AKAZE);
+              if (checkalgo2) setAlgorithm2(data.ORB);
+              if (checkalgo3) setAlgorithm3(data.SIFT);
             });
           } else {
             response.json().then((data) => {
@@ -104,7 +107,7 @@ const CompareAlgorithm = () => {
             onChange={handleCheckBox(1)}
             value={checkalgo1}
           />{" "}
-          Algorithm 1
+          AKAZE
           <br />
         </label>
         <label>
@@ -113,7 +116,7 @@ const CompareAlgorithm = () => {
             onChange={handleCheckBox(2)}
             value={checkalgo2}
           />{" "}
-          Algorithm 2
+          ORB
           <br />
         </label>
         <label>
@@ -122,7 +125,7 @@ const CompareAlgorithm = () => {
             onChange={handleCheckBox(3)}
             value={checkalgo3}
           />{" "}
-          Algorithm 3
+          SIFT (มีลิขสิทธิ์)
           <br />
         </label>
         {isLoading && <div className="spinner"></div>}

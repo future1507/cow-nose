@@ -14,7 +14,7 @@ const ProcessingResult = () => {
 
       {Algorithm1.length !== 0 && (
         <div>
-          <h3>Algorithm1</h3>
+          <h3>AKEZE</h3>
           <p>
             ภาพทั้ง 2 มีความคล้ายคลึงกัน {Algorithm1.goodMatches} จุด จาก{" "}
             {Algorithm1.matches} จุด คิดเป็น <ins>{Algorithm1.score} %</ins>
@@ -33,7 +33,7 @@ const ProcessingResult = () => {
 
       {Algorithm2.length !== 0 && (
         <div>
-          <h3>Algorithm2</h3>
+          <h3>ORB</h3>
           <p>
             ภาพทั้ง 2 มีความคล้ายคลึงกัน {Algorithm2.goodMatches} จุด จาก{" "}
             {Algorithm2.matches} จุด คิดเป็น <ins>{Algorithm2.score} %</ins>
@@ -52,7 +52,7 @@ const ProcessingResult = () => {
 
       {Algorithm3.length !== 0 && (
         <div>
-          <h3>Algorithm3</h3>
+          <h3>SIFT </h3>
           <p>
             ภาพทั้ง 2 มีความคล้ายคลึงกัน {Algorithm3.goodMatches} จุด จาก{" "}
             {Algorithm3.matches} จุด คิดเป็น <ins>{Algorithm3.score} %</ins>
