@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import "./CompareAlgorithm.css";
 import { DataContext } from "../data/DataContext";
+import { Dialog } from "primereact/dialog";
 
 const CompareAlgorithm = () => {
   const {
@@ -23,6 +24,8 @@ const CompareAlgorithm = () => {
   const [checkalgo2, setCheckalgo2] = useState(false);
   const [checkalgo3, setCheckalgo3] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [errorText, setErrorText] = useState("");
 
   useEffect(() => {
     if (compareValid[0] && compareValid[1]) {
@@ -52,7 +55,8 @@ const CompareAlgorithm = () => {
     setAlgorithm2([]);
     setAlgorithm3([]);
     if (!checkalgo1 && !checkalgo2 && !checkalgo3) {
-      alert("กรุณาเลือกวิธีเปรียบเทียบ");
+      setVisible(true);
+      setErrorText("กรุณาเลือกวิธีเปรียบเทียบ");
     } else {
       setIsLoading(true);
       fetch("/flask/api/matching", {
@@ -72,10 +76,11 @@ const CompareAlgorithm = () => {
             });
           } else {
             response.json().then((data) => {
-              alert(
+              setVisible(true);
+              setErrorText(
                 "Error " +
                   response.status +
-                  " : ไม่สามารถเปรียบเทียบรูปภาพได้ เนื่องจาก" +
+                  " : ไม่สามารถเปรียบเทียบรูปภาพได้ เนื่องจาก " +
                   data.message
               );
             });
@@ -83,7 +88,8 @@ const CompareAlgorithm = () => {
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
-          alert("เกิดข้อผิดพลาดขณะเปรียบเทียบรูปภาพ");
+          setVisible(true);
+          setErrorText("เกิดข้อผิดพลาดขณะเปรียบเทียบรูปภาพ");
         })
         .finally(() => {
           setIsLoading(false);
@@ -98,7 +104,7 @@ const CompareAlgorithm = () => {
   };
 
   return (
-    <div>
+    <>
       <div className="center-content">
         <p>เลือกวิธีเปรียบเทียบ</p>
         <label>
@@ -135,7 +141,24 @@ const CompareAlgorithm = () => {
           </button>
         )}
       </div>
-    </div>
+      <Dialog
+        style={{
+          width: "50vw",
+          height: "100px",
+          textAlign: "center",
+        }}
+        header="ผิดพลาด !!!"
+        visible={visible}
+        draggable={false}
+        dismissableMask
+        onHide={() => setVisible(false)}
+      >
+        <p>
+          <br />
+          {errorText}
+        </p>
+      </Dialog>
+    </>
   );
 };
 

@@ -1,8 +1,7 @@
 .center-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  text-align: start;
   justify-content: center;
   color: #ccc;
   margin: 10px;
@@ -19,11 +18,20 @@
 .center-content i {
   margin: 5px;
 }
+.center-content p,
+label {
+  margin-inline-start: 20px;
+  margin-inline-end: 20px;
+}
 .center-content input[type="checkbox"]:checked {
   accent-color: #f4511e;
 }
 .spinner {
-  border: 10px solid rgba(0, 0, 0, 0.1);
+  position: relative; /* ตรึง spinner ไว้ในตำแหน่ง fixed */
+  top: 50%; /* จัดกึ่งกลางแนวตั้ง */
+  left: 40%; /* จัดกึ่งกลางแนวนอน */
+  align-items: center;
+  border: 5px solid rgba(0, 0, 0, 0.1);
   border-left-color: #f4511e;
   border-radius: 50%;
   width: 40px;

@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import ProcessingResult from "./components/ProcessingResult";
 import Searchbar from "./components/Searchbar";
 import { DataProvider } from "./data/DataContext";
+import "primereact/resources/themes/saga-orange/theme.css";
 
 function App() {
   return (

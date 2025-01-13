@@ -1,0 +1,17 @@
+.image {
+  display: flex;
+  margin: 0 auto;
+  text-align: center;
+  border: 2px solid #f4511e;
+  border-radius: 5px;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.image:hover {
+  transform: scale(1.05); /* ขยายภาพเล็กน้อยเมื่อ hover */
+  filter: none; /* ปิดการปรับแต่ง filter ในสถานะ hover */
+}
+
+.image:active {
+  opacity: 1; /* ควบคุม opacity หากมีการคลิก */
+}

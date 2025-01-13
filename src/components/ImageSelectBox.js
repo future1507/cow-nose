@@ -1,6 +1,7 @@
 import { DataContext } from "../data/DataContext";
 import "./ImageBox.css";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { Dialog } from "primereact/dialog";
 
 const ImageSelectBox = () => {
   const { img_src, valid } = useContext(DataContext);
@@ -11,6 +12,8 @@ const ImageSelectBox = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [formValid, setFormValid] = useState(false);
   const [, setIsImageValid] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const [errorText, setErrorText] = useState("");
 
   const fileInputRef = useRef(null);
 
@@ -42,9 +45,10 @@ const ImageSelectBox = () => {
         ClosePopup();
       };
       img.onerror = () => {
-        alert("ลิงก์รูปภาพไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่");
         setIsImageValid(false);
         setImageUrl("");
+        setVisible(true);
+        setErrorText("ลิงก์รูปภาพไม่ถูกต้อง กรุณาตรวจสอบและลองใหม่");
       };
     }
   };
@@ -105,6 +109,23 @@ const ImageSelectBox = () => {
           ClosePopup={ClosePopup}
         />
       )}
+      <Dialog
+        style={{
+          width: "50vw",
+          height: "100px",
+          textAlign: "center",
+        }}
+        header="ผิดพลาด !!!"
+        visible={visible}
+        draggable={false}
+        dismissableMask
+        onHide={() => setVisible(false)}
+      >
+        <p>
+          <br />
+          {errorText}
+        </p>
+      </Dialog>
     </>
   );
 };
