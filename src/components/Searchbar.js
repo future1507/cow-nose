@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import "./Searchbar.css";
 import { DataContext } from "../data/DataContext";
 import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
+
 const Searchbar = () => {
   const { id, img_search, valid } = useContext(DataContext);
   const [, setZyan_id] = id;
@@ -22,11 +24,13 @@ const Searchbar = () => {
     fetchData();
   };
 
+  // const url = "/springboot/api/nosetests/";
+  const url = "192.168.10.2/cow/getCowByZyancode/";
   async function fetchData() {
     const checkData = searchText.trim().length > 0;
     if (checkData) {
       try {
-        const response = await fetch("/springboot/api/nosetests/" + searchText);
+        const response = await fetch(url + searchText);
         if (!response.ok) {
           setVisible(true);
           setErrorText("ไม่พบข้อมูลไอดีโคที่ค้นหา");
@@ -69,20 +73,30 @@ const Searchbar = () => {
       </form>
       <Dialog
         style={{
-          width: "50vw",
-          height: "100px",
           textAlign: "center",
         }}
-        header="ผิดพลาด !!!"
         visible={visible}
+        onHide={() => setVisible(false)}
+        header="ผิดพลาด !!!"
         draggable={false}
         dismissableMask
-        onHide={() => setVisible(false)}
+        resizable={false}
+        footer={
+          <Button
+            label="ตกลง"
+            className="p-button-text"
+            style={{
+              margin: "10px",
+              color: "#f4511e",
+              borderColor: "#f4511e",
+              width: "200px",
+              minWidth: "200px",
+            }}
+            onClick={() => setVisible(false)}
+          />
+        }
       >
-        <p>
-          <br />
-          {errorText}
-        </p>
+        <p>{errorText}</p>
       </Dialog>
     </>
   );

@@ -7,6 +7,7 @@ function DataProvider(props) {
   const [ImageSource, setImageSource] = useState(null);
   const [ImageSearch, setImageSearch] = useState(null);
   const [compareValid, setCompareValid] = useState([false, false]);
+  const [algorithm, setAlgorithm] = useState([]);
   const [Algorithm1, setAlgorithm1] = useState([]);
   const [Algorithm2, setAlgorithm2] = useState([]);
   const [Algorithm3, setAlgorithm3] = useState([]);
@@ -18,6 +19,7 @@ function DataProvider(props) {
         img_src: [ImageSource, setImageSource],
         img_search: [ImageSearch, setImageSearch],
         valid: [compareValid, setCompareValid],
+        algo_result: [algorithm, setAlgorithm],
         algo1_result: [Algorithm1, setAlgorithm1],
         algo2_result: [Algorithm2, setAlgorithm2],
         algo3_result: [Algorithm3, setAlgorithm3],

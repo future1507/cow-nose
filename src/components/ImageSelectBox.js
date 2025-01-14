@@ -2,6 +2,7 @@ import { DataContext } from "../data/DataContext";
 import "./ImageBox.css";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
 
 const ImageSelectBox = () => {
   const { img_src, valid } = useContext(DataContext);
@@ -111,20 +112,31 @@ const ImageSelectBox = () => {
       )}
       <Dialog
         style={{
-          width: "50vw",
-          height: "100px",
           textAlign: "center",
+          alignItems: "center",
         }}
-        header="ผิดพลาด !!!"
         visible={visible}
+        onHide={() => setVisible(false)}
+        header="ผิดพลาด !!!"
         draggable={false}
         dismissableMask
-        onHide={() => setVisible(false)}
+        resizable={false}
+        footer={
+          <Button
+            label="ตกลง"
+            className="p-button-text"
+            style={{
+              margin: "10px",
+              color: "#f4511e",
+              borderColor: "#f4511e",
+              width: "200px",
+              minWidth: "200px",
+            }}
+            onClick={() => setVisible(false)}
+          />
+        }
       >
-        <p>
-          <br />
-          {errorText}
-        </p>
+        <p>{errorText}</p>
       </Dialog>
     </>
   );

@@ -2,31 +2,26 @@ import { useContext, useEffect, useState } from "react";
 import "./CompareAlgorithm.css";
 import { DataContext } from "../data/DataContext";
 import { Dialog } from "primereact/dialog";
+import { Button } from "primereact/button";
 
 const CompareAlgorithm = () => {
-  const {
-    img_src,
-    img_search,
-    valid,
-    algo1_result,
-    algo2_result,
-    algo3_result,
-  } = useContext(DataContext);
+  const { img_src, img_search, valid, algo_result } = useContext(DataContext);
   const [ImageSource] = img_src;
   const [ImageSearch] = img_search;
   const [compareValid] = valid;
-  const [, setAlgorithm1] = algo1_result;
-  const [, setAlgorithm2] = algo2_result;
-  const [, setAlgorithm3] = algo3_result;
+  const [, setAlgorithm] = algo_result;
 
   const [showCompare, setShowCompare] = useState(false);
-  const [checkalgo1, setCheckalgo1] = useState(false);
-  const [checkalgo2, setCheckalgo2] = useState(false);
-  const [checkalgo3, setCheckalgo3] = useState(false);
+  const [checkalgo, setCheckalgo] = useState([false, false, false]);
   const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [errorText, setErrorText] = useState("");
 
+  const algorithms = [
+    { name: "AKAZE", value: checkalgo[0] },
+    { name: "ORB", value: checkalgo[1] },
+    { name: "SIFT", value: checkalgo[2], note: "(มีลิขสิทธิ์)" },
+  ];
   useEffect(() => {
     if (compareValid[0] && compareValid[1]) {
       setShowCompare(true);
@@ -42,24 +37,23 @@ const CompareAlgorithm = () => {
     return img;
   };
 
+  const url = "/flask/api/matching";
   function ImageMatching() {
     const testData = {
       img_main: ImageSearch,
       img_compare: CheckImageSourceType(ImageSource),
-      akaze: checkalgo1,
-      orb: checkalgo2,
-      sift: checkalgo3,
+      akaze: checkalgo[0],
+      orb: checkalgo[1],
+      sift: checkalgo[2],
     };
     // console.log(testData);
-    setAlgorithm1([]);
-    setAlgorithm2([]);
-    setAlgorithm3([]);
-    if (!checkalgo1 && !checkalgo2 && !checkalgo3) {
+    setAlgorithm([]);
+    if (!checkalgo[0] && !checkalgo[1] && !checkalgo[2]) {
       setVisible(true);
       setErrorText("กรุณาเลือกวิธีเปรียบเทียบ");
     } else {
       setIsLoading(true);
-      fetch("/flask/api/matching", {
+      fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,10 +63,8 @@ const CompareAlgorithm = () => {
         .then((response) => {
           if (response.ok) {
             response.json().then((data) => {
-              console.log(data);
-              if (checkalgo1) setAlgorithm1(data.AKAZE);
-              if (checkalgo2) setAlgorithm2(data.ORB);
-              if (checkalgo3) setAlgorithm3(data.SIFT);
+              // console.log(data);
+              setAlgorithm(data);
             });
           } else {
             response.json().then((data) => {
@@ -97,43 +89,29 @@ const CompareAlgorithm = () => {
     }
   }
 
-  const handleCheckBox = (algoname) => {
-    if (algoname === 1) return () => setCheckalgo1(!checkalgo1);
-    if (algoname === 2) return () => setCheckalgo2(!checkalgo2);
-    if (algoname === 3) return () => setCheckalgo3(!checkalgo3);
+  const handleCheckBox = (index) => {
+    return () => {
+      setCheckalgo((prevCheckalgo) =>
+        prevCheckalgo.map((value, i) => (i === index ? !value : value))
+      );
+    };
   };
 
   return (
     <>
       <div className="center-content">
         <p>เลือกวิธีเปรียบเทียบ</p>
-        <label>
-          <input
-            type="checkbox"
-            onChange={handleCheckBox(1)}
-            value={checkalgo1}
-          />{" "}
-          AKAZE
-          <br />
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            onChange={handleCheckBox(2)}
-            value={checkalgo2}
-          />{" "}
-          ORB
-          <br />
-        </label>
-        <label>
-          <input
-            type="checkbox"
-            onChange={handleCheckBox(3)}
-            value={checkalgo3}
-          />{" "}
-          SIFT (มีลิขสิทธิ์)
-          <br />
-        </label>
+        {algorithms.map((algo, index) => (
+          <label key={index}>
+            <input
+              type="checkbox"
+              onChange={handleCheckBox(index)}
+              checked={checkalgo[index]}
+            />{" "}
+            {algo.name} {algo.note && <span>{algo.note}</span>}
+            <br />
+          </label>
+        ))}
         {isLoading && <div className="spinner"></div>}
         {showCompare && (
           <button onClick={ImageMatching} disabled={isLoading}>
@@ -143,20 +121,31 @@ const CompareAlgorithm = () => {
       </div>
       <Dialog
         style={{
-          width: "50vw",
-          height: "100px",
           textAlign: "center",
+          alignItems: "center",
         }}
-        header="ผิดพลาด !!!"
         visible={visible}
+        onHide={() => setVisible(false)}
+        header="ผิดพลาด !!!"
         draggable={false}
         dismissableMask
-        onHide={() => setVisible(false)}
+        resizable={false}
+        footer={
+          <Button
+            label="ตกลง"
+            className="p-button-text"
+            style={{
+              margin: "10px",
+              color: "#f4511e",
+              borderColor: "#f4511e",
+              width: "200px",
+              minWidth: "200px",
+            }}
+            onClick={() => setVisible(false)}
+          />
+        }
       >
-        <p>
-          <br />
-          {errorText}
-        </p>
+        <p>{errorText}</p>
       </Dialog>
     </>
   );
