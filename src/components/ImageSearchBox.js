@@ -28,7 +28,7 @@ const ImageSearchBox = () => {
             ) : (
               <>
                 <img
-                  src={ImageSearch}
+                  src={"https://dairy.zyanwoa.com/uploadFiles/" + ImageSearch}
                   alt="Selected preview"
                   style={{
                     width: "240px",

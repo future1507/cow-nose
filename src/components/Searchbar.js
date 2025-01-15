@@ -18,6 +18,10 @@ const Searchbar = () => {
     setSearchText(event.target.value);
   };
 
+  const inputSampleID = () => {
+    setSearchText("Z000FA05E2BDD733E0A0274D550E2F219594");
+  };
+
   const handleSearchValue = (event) => {
     event.preventDefault();
     setZyan_id(searchText);
@@ -25,25 +29,38 @@ const Searchbar = () => {
   };
 
   // const url = "/springboot/api/nosetests/";
-  const url = "192.168.10.2/cow/getCowByZyancode/";
+  const url = "https://api.zyanwoa.com/dairy/v1/cow/getCowByZyancode/";
+  // เปลี่ยน token เป็นของ admin เพิ่อเข้าถึง cow ทั้งหมด
+  const token =
+    "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5YmYzMmU0Zi04YTE5LTRhYmItYjgxYi02ODcxYzE5ZWZmMDIiLCJpYXQiOjE3MzY5MTY3ODAsImV4cCI6MTczOTUwODc4MH0.0Ct04PJ63NDSAQp2H9e_dXhJCq72AnV5vGHV_bP4oUM";
+  const bearer = "Bearer " + token;
+
   async function fetchData() {
     const checkData = searchText.trim().length > 0;
     if (checkData) {
       try {
-        const response = await fetch(url + searchText);
+        const response = await fetch(url + searchText, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: bearer,
+          },
+        });
+        // console.log(response);
         if (!response.ok) {
           setVisible(true);
           setErrorText("ไม่พบข้อมูลไอดีโคที่ค้นหา");
-          return;
+          // return;
         }
         const data = await response.json();
         if (
-          data.img !== null &&
-          data.img !== undefined &&
-          data.img !== "" &&
-          data.img !== "null"
+          data.cow_img !== null &&
+          data.cow_img !== undefined &&
+          data.cow_img !== "" &&
+          data.cow_img !== "null"
         ) {
-          setImageSearch(data.img);
+          // console.log(data);
+          setImageSearch(data.cow_img);
           setCompareValid([compareValid[0], true]);
         } else {
           setVisible(true);
@@ -61,7 +78,9 @@ const Searchbar = () => {
           <div className="search-bar">
             <input
               type="text"
+              title="ดับเบิ้ลคลิก เพื่อใส่ไอดีทดสอบ"
               onChange={inputSearchValue}
+              onDoubleClick={inputSampleID}
               placeholder="ค้นหาด้วยไอดี..."
               value={searchText}
             />

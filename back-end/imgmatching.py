@@ -51,7 +51,7 @@ def feature_matching(img1, img2, model_type):
         if type == "AKAZE":
             model = cv2.AKAZE_create()
         if type == "ORB":
-            model = cv2.ORB_create()
+            model = cv2.ORB_create(nfeatures=5000)
         if type == "SIFT":
             model = cv2.SIFT_create(contrastThreshold=0.015, edgeThreshold=0.2)
 

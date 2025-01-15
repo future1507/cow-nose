@@ -40,7 +40,7 @@ const CompareAlgorithm = () => {
   const url = "/flask/api/matching";
   function ImageMatching() {
     const testData = {
-      img_main: ImageSearch,
+      img_main: "https://dairy.zyanwoa.com/uploadFiles/" + ImageSearch,
       img_compare: CheckImageSourceType(ImageSource),
       akaze: checkalgo[0],
       orb: checkalgo[1],

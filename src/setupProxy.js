@@ -19,4 +19,12 @@ module.exports = function (app) {
       proxyTimeout: 120000,
     })
   );
+  app.use(
+    "/dairy",
+    createProxyMiddleware({
+      target: "http://localhost:8083",
+      changeOrigin: true,
+      pathRewrite: { "^/api3": "" },
+    })
+  );
 };
